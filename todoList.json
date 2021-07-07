@@ -1,0 +1,46 @@
+{
+  "tasks": [
+    {
+      "id": 4,
+      "name": "repaso geopolítica Asia Oriental",
+      "level": "medium",
+      "done": false
+    },
+    {
+      "id": 5,
+      "name": "lavar los platos",
+      "level": "easy",
+      "done": true
+    },
+    {
+      "id": 6,
+      "name": "ordenar archivos ordenador",
+      "level": "medium",
+      "done": false
+    },
+    {
+      "id": 7,
+      "name": "arroz con leche",
+      "level": "difficult",
+      "done": false
+    },
+    {
+      "name": "calistenia",
+      "level": "medium",
+      "done": false,
+      "id": 8
+    },
+    {
+      "name": "ensayo salsa",
+      "level": "medium",
+      "done": false,
+      "id": 10
+    },
+    {
+      "name": "swing ensayo",
+      "level": "medium",
+      "done": false,
+      "id": 11
+    }
+  ]
+}
