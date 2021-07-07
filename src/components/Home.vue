@@ -4,12 +4,15 @@
       <input v-model="task" type="text" placeholder="enter new task" class="form-control input-create">
       <button @click="submitTask" type="submit" class="btn btn-success">create</button>
      
+
+
+
     </div>
     <form class="list">
-      <div class="list-item" v-for="task in list"  :key="task.index" v-bind:style="[task.done ? {'background-color': 'rgb(207, 230, 189)'} : {'background-color': 'rgb(230, 189, 189)'}]">
+      <div class="list-item" v-for="task in doneItems"  :key="task.index" v-bind:style="[task.done ? {'background-color': 'rgb(207, 230, 189)'} : {'background-color': 'rgb(230, 189, 189)'}]">
         <div class="list-task">
-          <input type="checkbox" v-model="task.done" v-bind:checked="task.done ? true : false" >
-          <textarea v-model="task.name" class="input-task" type="text" v-bind:style="[task.done ? {'background-color': 'rgb(207, 230, 189)'} : {'background-color': 'rgb(230, 189, 189)'}]" @change="saveChange(task.name)"></textarea>
+          <input type="checkbox" v-model="task.done" @change="saveDone(task.done)" v-bind:checked="task.done ? true : false" >
+          <textarea  v-model="task.name" class="input-task" type="text" v-bind:style="[task.done ? {'background-color': 'rgb(207, 230, 189)'} : {'background-color': 'rgb(230, 189, 189)'}]" @change="saveName(task.name)"></textarea>
         </div>
         <div class="list-buttons">
 
@@ -51,17 +54,14 @@ export default {
       task:"",
       updatedTask: "",
       list: [],
-      doneTasks : [],
-      state: true
-      
-     
+      doneItems: [],
+   
+      state: false
     }
   },
 
   mounted(){
     this.catchApi();
-   
-
     
   },
 
@@ -69,9 +69,16 @@ export default {
   methods: {
     catchApi(){
       axios.get(baseURL).then(response => {
-        this.list = response.data
+        const todos = response.data
+
+        this.doneItems = todos.filter(task => task.done===false)
+
         
       })
+    },
+    catchTasks(){
+      
+    console.log(this.list)
     },
     submitTask(){
       axios.post(baseURL, {name: this.task, level: "medium", done: false}).then(() => {
@@ -85,12 +92,17 @@ export default {
           this.catchApi()
       })
     },
-    saveChange(task){
+    saveName(task){
       this.updatedTask = task;
-      console.log(this.updatedTask)
+   
+    },
+    saveDone(done){
+      this.state= done
+      
+      
     },
     updateTask(id){
-      axios.patch(baseURL + id, {name: this.updatedTask}).then(() => {
+      axios.patch(baseURL + id, {name: this.updatedTask, done: this.state}).then(() => {
         this.catchApi()
       })
     }
