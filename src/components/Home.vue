@@ -1,5 +1,8 @@
 <template>
   <div class="container-fluid">
+    <div class="img-container">
+      <img class="img-home" src="../assets/eternal.png" alt="">
+    </div>
     <div class="container-create">
       <input v-model="task" type="text" placeholder="enter new task" class="form-control input-create">
       <button @click="submitTask" type="submit" class="btn btn-success">create</button>
@@ -125,6 +128,10 @@ export default {
     padding: 0 2rem;
     margin: 2rem auto;
     
+  }
+
+  .img-home{
+    width: 10rem;
   }
 
   .input-create{
