@@ -2,7 +2,7 @@
   "tasks": [
     {
       "id": 4,
-      "name": "repaso geopolítica Asia Oriental",
+      "name": "repaso geopolítica Amerique",
       "level": "medium",
       "done": false
     },
@@ -20,9 +20,9 @@
     },
     {
       "id": 7,
-      "name": "arroz con leche",
+      "name": "",
       "level": "difficult",
-      "done": false
+      "done": true
     },
     {
       "name": "calistenia",
@@ -31,16 +31,46 @@
       "id": 8
     },
     {
-      "name": "ensayo salsa",
+      "name": false,
+      "level": "medium",
+      "done": "ensayo salsa !",
+      "id": 10
+    },
+    {
+      "name": "",
+      "level": "medium",
+      "done": true,
+      "id": 12
+    },
+    {
+      "name": "faire bisous lola !",
       "level": "medium",
       "done": false,
-      "id": 10
+      "id": 13
+    },
+    {
+      "name": false,
+      "level": "medium",
+      "done": "asdfadfdfs",
+      "id": 14
+    },
+    {
+      "name": false,
+      "level": "medium",
+      "done": "asdfssadff",
+      "id": 15
     },
     {
       "name": "ensayo swing",
       "level": "medium",
       "done": false,
-      "id": 11
+      "id": 16
+    },
+    {
+      "name": "",
+      "level": "medium",
+      "done": true,
+      "id": 17
     }
   ]
 }

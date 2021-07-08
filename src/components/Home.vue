@@ -3,6 +3,7 @@
     <div class="container-create">
       <input v-model="task" type="text" placeholder="enter new task" class="form-control input-create">
       <button @click="submitTask" type="submit" class="btn btn-success">create</button>
+      
      
 
 
@@ -44,9 +45,8 @@
 
 <script>
 
-import axios from 'axios'
+import {taskService} from '../services/taskService'
 
-const baseURL = "http://localhost:3000/tasks/"
 
 export default {
   data() {
@@ -67,30 +67,29 @@ export default {
 
 
   methods: {
-    catchApi(){
-      axios.get(baseURL).then(response => {
-        const todos = response.data
-
-        this.doneItems = todos.filter(task => task.done===false)
-
-        
-      })
+    async catchApi(){
+        const res = await taskService.getAll() 
+        this.doneItems = res.data.filter(task => task.done===false)
     },
-    catchTasks(){
+    
+    async submitTask(){
+      let newTask = this.task
+      const res = await taskService.submitTask(newTask)
+
+      this.doneItems = res.data.filter(task => task.done===false)
+
+      this.task = ""
+        
       
-    console.log(this.list)
     },
-    submitTask(){
-      axios.post(baseURL, {name: this.task, level: "medium", done: false}).then(() => {
-        this.catchApi()
-        this.task = ""
-        
-      })
-    },
-    deleteTask(id){
-      axios.delete(baseURL + id).then(() => {
-          this.catchApi()
-      })
+
+    async deleteTask(id){
+
+      const res = await taskService.deleteTask(id)
+
+      this.doneItems = res.data.filter(task => task.done===false)
+
+      
     },
     saveName(task){
       this.updatedTask = task;
@@ -101,10 +100,17 @@ export default {
       
       
     },
-    updateTask(id){
-      axios.patch(baseURL + id, {name: this.updatedTask, done: this.state}).then(() => {
-        this.catchApi()
-      })
+    async updateTask(id){
+      let updatedStatus = this.state
+      let updatedTitle = this.updatedTask
+
+      const res = await taskService.updateTask(id, updatedTitle, updatedStatus  )
+
+      this.doneItems = res.data.filter(task => task.done===false)
+
+     
+
+      this.updatedTask = ""
     }
   }
 }
