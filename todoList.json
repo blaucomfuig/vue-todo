@@ -1,12 +1,6 @@
 {
   "tasks": [
     {
-      "id": 4,
-      "name": "repaso geopolítica Amerique",
-      "level": "medium",
-      "done": false
-    },
-    {
       "id": 5,
       "name": "",
       "level": "easy",

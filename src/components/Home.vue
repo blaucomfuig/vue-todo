@@ -1,5 +1,6 @@
 <template>
   <div class="container-fluid">
+
     <div class="img-container">
       <img class="img-home" src="../assets/eternal.png" alt="">
     </div>
@@ -13,7 +14,7 @@
 
     </div>
     <form class="list">
-      <div class="list-item" v-for="task in doneItems"  :key="task.index" v-bind:style="[task.done ? {'background-color': 'rgb(207, 230, 189)'} : {'background-color': 'rgb(230, 189, 189)'}]">
+      <div class="list-item" v-for="task in tasks" :key="task.index" v-bind:style="[task.done ? {'background-color': 'rgb(207, 230, 189)'} : {'background-color': 'rgb(230, 189, 189)'}]">
         <div class="list-task">
           <input type="checkbox" v-model="task.done" @change="saveDone(task.done)" v-bind:checked="task.done ? true : false" >
           <textarea  v-model="task.name" class="input-task" type="text" v-bind:style="[task.done ? {'background-color': 'rgb(207, 230, 189)'} : {'background-color': 'rgb(230, 189, 189)'}]" @change="saveName(task.name)"></textarea>
@@ -51,20 +52,25 @@
 import {taskService} from '../services/taskService'
 
 
+
 export default {
   data() {
     return{
       task:"",
       updatedTask: "",
-      list: [],
-      doneItems: [],
-   
       state: false
+    }
+  },
+
+  computed: {
+    tasks(){
+      return this.$store.state.tasks
     }
   },
 
   mounted(){
     this.catchApi();
+    this.$store.dispatch('loadTasks')
     
   },
 
@@ -74,13 +80,16 @@ export default {
         const res = await taskService.getAll() 
         this.doneItems = res.data.filter(task => task.done===false)
     },
-    
+      
     async submitTask(){
       let newTask = this.task
-      const res = await taskService.submitTask(newTask)
-
-      this.doneItems = res.data.filter(task => task.done===false)
-
+      
+        this.$store.dispatch('submitTask', {
+          name: newTask, 
+          level: "medium", 
+          done: false 
+        })
+      
       this.task = ""
         
       
@@ -88,11 +97,9 @@ export default {
 
     async deleteTask(id){
 
-      const res = await taskService.deleteTask(id)
+      this.$store.dispatch('deleteTask', id)
 
-      this.doneItems = res.data.filter(task => task.done===false)
 
-      
     },
     saveName(task){
       this.updatedTask = task;

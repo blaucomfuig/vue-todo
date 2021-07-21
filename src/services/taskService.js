@@ -7,7 +7,7 @@ export const taskService = {
         return axios.get(baseURL + "tasks")
     },
     submitTask(newTask){
-        axios.post(baseURL + "tasks", {name: newTask, level: "medium", done: false })
+        axios.post(baseURL + "tasks", newTask)
 
         return this.getAll()
         
