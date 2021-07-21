@@ -24,6 +24,7 @@
 }
 
 #nav a {
+  text-decoration: none;
   font-weight: bold;
   color: #2c3e50;
 }
