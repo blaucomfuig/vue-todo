@@ -95,15 +95,7 @@ export default {
 
 
     },
-    saveName(task){
-      this.updatedTask = task;
-   
-    },
-    saveDone(done){
-      this.state= done
-      
-      
-    },
+    
     async updateTask(id){
       let updatedStatus = this.state
       let updatedTitle = this.updatedTask
@@ -117,11 +109,22 @@ export default {
           level: "medium", 
           done: updatedStatus
         }
-        })
+      })
     
 
       this.updatedTask = ""
-    }
+    },
+
+    saveName(task){
+      this.updatedTask = task;
+   
+    },
+    
+    saveDone(done){
+      this.state= done
+      
+      
+    },
   }
 }
 </script>
