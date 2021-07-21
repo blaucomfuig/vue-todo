@@ -26,14 +26,18 @@ export default new Vuex.Store({
         async deleteTask({commit}, id){
             const res = await taskService.deleteTask(id)
             let tasks = res.data
-            commit('getDoneTasks', tasks)
-            
+            commit('getDoneTasks', tasks) 
+        },
+
+        async updateTask({commit}, {id, updatedTask}){
+            const res = await taskService.updateTask(id, updatedTask)
+            let tasks = res.data
+            commit('getDoneTasks', tasks) 
         }
     },
     mutations : {
         getDoneTasks(state, tasks){
-            state.tasks = tasks.filter(task => task.done ===false)
-            
+            state.tasks = tasks.filter(task => task.done ===false) 
         }
     }
 })

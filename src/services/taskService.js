@@ -17,8 +17,8 @@ export const taskService = {
 
         return this.getAll()
     },
-    updateTask(id, updatedTitle, updatedStatus){
-        axios.patch(baseURL + "tasks/" + id, {name: updatedTitle, done: updatedStatus})
+    updateTask(id, updatedTask){
+        axios.patch(baseURL + "tasks/" + id, updatedTask)
 
         return this.getAll();
     }

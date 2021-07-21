@@ -49,9 +49,6 @@
 
 <script>
 
-import {taskService} from '../services/taskService'
-
-
 
 export default {
   data() {
@@ -70,15 +67,12 @@ export default {
 
   mounted(){
     this.catchApi();
-    this.$store.dispatch('loadTasks')
-    
   },
 
 
   methods: {
     async catchApi(){
-        const res = await taskService.getAll() 
-        this.doneItems = res.data.filter(task => task.done===false)
+        this.$store.dispatch('loadTasks')
     },
       
     async submitTask(){
@@ -114,11 +108,17 @@ export default {
       let updatedStatus = this.state
       let updatedTitle = this.updatedTask
 
-      const res = await taskService.updateTask(id, updatedTitle, updatedStatus  )
 
-      this.doneItems = res.data.filter(task => task.done===false)
-
-     
+      //atencion aqui, el destructuring objects que me me salvo la vida
+      this.$store.dispatch('updateTask', {
+        id, 
+        updatedTask: {
+          name: updatedTitle, 
+          level: "medium", 
+          done: updatedStatus
+        }
+        })
+    
 
       this.updatedTask = ""
     }
