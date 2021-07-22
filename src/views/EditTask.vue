@@ -1,0 +1,1 @@
+ <textarea  v-model="task.name" class="input-task" type="text" v-bind:style="[task.done ? {'background-color': 'rgb(207, 230, 189)'} : {'background-color': 'rgb(230, 189, 189)'}]" @change="saveName(task.name)"></textarea>

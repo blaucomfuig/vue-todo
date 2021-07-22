@@ -17,11 +17,14 @@
       <div class="list-item" v-for="task in tasks" :key="task.index" v-bind:style="[task.done ? {'background-color': 'rgb(207, 230, 189)'} : {'background-color': 'rgb(230, 189, 189)'}]">
         <div class="list-task">
           <input type="checkbox" v-model="task.done" @change="saveDone(task.done)" v-bind:checked="task.done ? true : false" >
-          <textarea  v-model="task.name" class="input-task" type="text" v-bind:style="[task.done ? {'background-color': 'rgb(207, 230, 189)'} : {'background-color': 'rgb(230, 189, 189)'}]" @change="saveName(task.name)"></textarea>
+          <h3 class="task-name" v-bind:style="[task.done ? {'background-color': 'rgb(207, 230, 189)'} : {'background-color': 'rgb(230, 189, 189)'}]">{{task.name}}</h3>
         </div>
         <div class="list-buttons">
 
-          <button v-if="state === true" type="submit" class="btn-update btn btn-dark " @click="updateTask(task.id)" >
+          <svg  v-bind:style="[task.done ? {'background-color': 'rgb(207, 230, 189)'} : {'background-color': 'rgb(230, 189, 189)'}]" v-if="state===false" @click="enableEdit()" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="blue" class="bi bi-pencil btn-edit" viewBox="0 0 16 16">
+            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+            </svg>
+          <button v-if="state === true" type="submit" class="btn-update btn btn-dark " @click="updateTask(task.id, task.name)" >
           save
         </button>
 
@@ -96,16 +99,16 @@ export default {
 
     },
     
-    async updateTask(id){
+    async updateTask(id, oldTask){
       let updatedStatus = this.state
-      let updatedTitle = this.updatedTask
+      
 
 
       //atencion aqui, el destructuring objects que me me salvo la vida
       this.$store.dispatch('updateTask', {
         id, 
         updatedTask: {
-          name: updatedTitle, 
+          name: oldTask, 
           level: "medium", 
           done: updatedStatus
         }
@@ -148,11 +151,15 @@ export default {
     width:70%;
   }
 
-  .input-task{
+  .task-name{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    font-size: 1.5rem;
     border: none;
     background-color:rgb(207, 230, 189);
-    height: 80px;
-    width: 180px;
+    margin-left: 1rem;
+    
    
   }
 
@@ -169,7 +176,7 @@ export default {
     display: flex;
     font-size: 1.2rem;
     align-items: stretch;
-    justify-content: center;
+    justify-content: space-between;
     
     
     
@@ -183,7 +190,7 @@ export default {
   .list-task{
     display:flex;
     align-items: center ;
-    justify-content: flex-start;
+    
   
     margin-left: 1rem;
 
@@ -191,14 +198,11 @@ export default {
   }
 
   input[type=checkbox]{
-    height: 30px;
-    width: 30px;
+    height: 2rem;
+    width: 2rem;
   }
 
-  .list-task textarea{
-    padding-left: 1rem;
-    width: 60%;
-  }
+  
 
   .list-buttons{
     margin-right: 0;
@@ -224,10 +228,14 @@ export default {
   
 
   .btn-delete{
-   
+ 
     border:none;
     background-color:rgb(207, 230, 189);
     
+  }
+
+  .btn-edit{
+    margin: 0 1.5rem;
   }
 
   .btn-delete svg{

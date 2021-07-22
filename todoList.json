@@ -75,7 +75,7 @@
     {
       "name": "arroz con leche",
       "level": "medium",
-      "done": false,
+      "done": true,
       "id": 21
     }
   ]
