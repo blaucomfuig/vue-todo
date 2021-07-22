@@ -21,7 +21,7 @@
         </div>
         <div class="list-buttons">
 
-          <button type="submit" class="btn-update btn btn-dark " @click="updateTask(task.id)" >
+          <button v-if="state === true" type="submit" class="btn-update btn btn-dark " @click="updateTask(task.id)" >
           save
         </button>
 
