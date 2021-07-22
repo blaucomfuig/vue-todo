@@ -11,15 +11,10 @@ export default new Vuex.Store({
         tasks : []
     },
     actions : {
-        async loadTodoTasks({commit}){
+        async loadTasks({commit}){
            const res = await taskService.getAll()
            let tasks = res.data
            commit('getDoneTasks', tasks)
-        },
-        async loadAllTasks({commit}){
-           const res = await taskService.getAll()
-           let tasks = res.data
-           commit('getAllTasks', tasks)
         },
 
         async submitTask({commit}, newTask){
@@ -43,9 +38,6 @@ export default new Vuex.Store({
     mutations : {
         getDoneTasks(state, tasks){
             state.tasks = tasks.filter(task => task.done ===false) 
-        },
-        getAllTasks(state, tasks){
-            state.tasks = tasks
         }
     }
 })

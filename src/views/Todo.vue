@@ -14,7 +14,30 @@
 
     </div>
     <form class="list">
-      <Task v-for="task in tasks" :key="task.index" :id="task.id" :name="task.name" :done="task.done" :stateEdit="stateEdit" :task="task" :state="state" :updatedTask="updatedTask" @saveDone="saveDone" @enableEdit="enableEdit()" @updateTask="updateTask(task.id)" @deleteTask="deleteTask(task.id)" />
+      <div class="list-item" v-for="task in tasks" :key="task.index" v-bind:style="[task.done ? {'background-color': 'rgb(207, 230, 189)'} : {'background-color': 'rgb(230, 189, 189)'}]">
+        <div class="list-task">
+          <input type="checkbox" v-model="task.done" @change="saveDone(task.done)" v-bind:checked="task.done ? true : false" >
+          <textarea  v-model="task.name" class="input-task" type="text" v-bind:style="[task.done ? {'background-color': 'rgb(207, 230, 189)'} : {'background-color': 'rgb(230, 189, 189)'}]" @change="saveName(task.name)"></textarea>
+        </div>
+        <div class="list-buttons">
+
+          <button type="submit" class="btn-update btn btn-dark " @click="updateTask(task.id)" >
+          save
+        </button>
+
+          <button v-bind:style="[task.done ? {'background-color': 'rgb(207, 230, 189)'} : {'background-color': 'rgb(230, 189, 189)'}]" class="btn-delete" @click="deleteTask(task.id)" >
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
+          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+          <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+        </svg>
+        </button>
+
+        
+        </div>
+        
+      </div>
+     
         
       
       
@@ -26,28 +49,20 @@
 
 <script>
 
-import Task from '@/components/Task.vue'
 
 export default {
-  components: {
-    Task
-  },
   data() {
     return{
       task:"",
       updatedTask: "",
-
-      state: false,
-      stateEdit : false
+      state: false
     }
   },
 
   computed: {
     tasks(){
       return this.$store.state.tasks
-    },
-   
-
+    }
   },
 
   mounted(){
@@ -57,7 +72,7 @@ export default {
 
   methods: {
     async catchApi(){
-        this.$store.dispatch('loadTodoTasks')
+        this.$store.dispatch('loadTasks')
     },
       
     async submitTask(){
@@ -84,8 +99,9 @@ export default {
     async updateTask(id){
       let updatedStatus = this.state
       let updatedTitle = this.updatedTask
-    
-         //atencion aqui, el destructuring objects que me me salvo la vida
+
+
+      //atencion aqui, el destructuring objects que me me salvo la vida
       this.$store.dispatch('updateTask', {
         id, 
         updatedTask: {
@@ -97,26 +113,18 @@ export default {
     
 
       this.updatedTask = ""
-      
+    },
 
+    saveName(task){
+      this.updatedTask = task;
+   
+    },
     
-
-     
-    },
-
-    enableEdit(){
-      this.stateEdit = !this.stateEdit  
-    },
-
-
-    
-    saveDone(){
-      this.state= !this.state
+    saveDone(done){
+      this.state= done
       
       
     },
-
-  
   }
 }
 </script>
@@ -148,13 +156,6 @@ export default {
    
   }
 
-  .task-name{
-    display: flex;
-    justify-content: flex-start;
-    width: 17rem;
-    font-size: 1.2rem;
-  }
-
   .list{
     display: flex;
     flex-direction: column;
@@ -168,7 +169,10 @@ export default {
     display: flex;
     font-size: 1.2rem;
     align-items: stretch;
-    justify-content: space-around;
+    justify-content: center;
+    
+    
+    
     height: 10rem;
     background-color: rgb(207, 230, 189) ;
     margin-bottom: 2rem;
@@ -178,10 +182,10 @@ export default {
 
   .list-task{
     display:flex;
-    align-items: center;
-    justify-items: start;
+    align-items: center ;
+    justify-content: flex-start;
   
-    margin-left: 0.2rem;
+    margin-left: 1rem;
 
    
   }
@@ -193,7 +197,7 @@ export default {
 
   .list-task textarea{
     padding-left: 1rem;
-    width: 12rem;
+    width: 60%;
   }
 
   .list-buttons{
@@ -218,23 +222,6 @@ export default {
     transform:scale(1.2);
   }
   
-  .btn-edit {
-    border:none;
-    background-color:rgb(207, 230, 189);
-    margin-right:1rem;
-  }
-
-  .btn-edit svg{
-    transition: all ease 0.3s;
-  }
-
-  
-
-  .btn-edit svg:hover{
-    
-    transform:scale(1.2);
-  }
-
 
   .btn-delete{
    
