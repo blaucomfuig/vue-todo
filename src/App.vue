@@ -2,7 +2,7 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Get ready !</router-link> 
-      <router-link to="/alltasks">All tasks</router-link>
+      <router-link to="/donetasks">Done tasks</router-link>
     </div>
     <router-view/>
   </div>

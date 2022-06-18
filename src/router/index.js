@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Todo from '../views/Todo.vue'
-import AllTasks from '../views/AllTasks.vue'
+import DoneTasks from '../views/DoneTasks.vue'
 
 Vue.use(VueRouter)
 
@@ -12,9 +12,9 @@ const routes = [
     component: Todo
   },
   {
-    path: '/alltasks',
-    name: 'AllTasks',
-    component: AllTasks
+    path: '/donetasks',
+    name: 'DoneTasks',
+    component: DoneTasks
   }
 ]
 

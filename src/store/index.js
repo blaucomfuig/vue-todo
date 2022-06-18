@@ -8,44 +8,46 @@ Vue.use(Vuex, axios)
 
 export default new Vuex.Store({
     state : {
-        tasks : []
+        tasks : [],
+        doneTasks: [],
     },
     actions : {
         async loadTodoTasks({commit}){
            const res = await taskService.getAll()
-           let tasks = res.data
-           commit('getDoneTasks', tasks)
+           let tasks = res.data;
+           commit('getTodoTasks', tasks)
         },
-        async loadAllTasks({commit}){
+
+        async loadDoneTasks({commit}){
            const res = await taskService.getAll()
-           let tasks = res.data
-           commit('getAllTasks', tasks)
+           let tasks = res.data;
+           commit('getDoneTasks', tasks)
         },
 
         async submitTask({commit}, newTask){
             const res = await taskService.submitTask(newTask)
             let tasks = res.data
-            commit('getDoneTasks', tasks)
+            commit('getTodoTasks', tasks)
         },
 
         async deleteTask({commit}, id){
             const res = await taskService.deleteTask(id)
             let tasks = res.data
-            commit('getDoneTasks', tasks) 
+            commit('getTodoTasks', tasks) 
         },
 
         async updateTask({commit}, {id, updatedTask}){
             const res = await taskService.updateTask(id, updatedTask)
             let tasks = res.data
-            commit('getDoneTasks', tasks) 
+            commit('getTodoTasks', tasks) 
         }
     },
     mutations : {
-        getDoneTasks(state, tasks){
-            state.tasks = tasks.filter(task => task.done ===false) 
+        getTodoTasks(state, tasks){
+            state.tasks = tasks.filter(task => task.done === false) 
         },
-        getAllTasks(state, tasks){
-            state.tasks = tasks
+        getDoneTasks(state, tasks){
+            state.doneTasks = tasks.filter(task => task.done === true);
         }
     }
 })

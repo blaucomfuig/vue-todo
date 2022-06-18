@@ -15,11 +15,11 @@
 
 
 export default {
-  name: 'AllTasks',
+  name: 'DoneTasks',
   
   computed: {
     tasks(){
-      return this.$store.state.tasks
+      return this.$store.state.doneTasks;
     }
   },
 
@@ -29,12 +29,8 @@ export default {
 
   methods: {
     async catchApi(){
-        this.$store.dispatch('loadAllTasks')
+        this.$store.dispatch('loadDoneTasks')
     },
   }
-
-  
-    
-  
 }
 </script>
