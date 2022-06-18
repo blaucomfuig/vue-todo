@@ -1,53 +1,72 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import {taskService} from '../services/taskService'
+import { taskService } from '../services/taskService'
 
-Vue.use(Vuex, axios)
-
+Vue.use(Vuex, axios);
 
 export default new Vuex.Store({
     state : {
         tasks : [],
         doneTasks: [],
     },
-    actions : {
-        async loadTodoTasks({commit}){
-           const res = await taskService.getTasks()
-           let tasks = res.data;
-           commit('getTodoTasks', tasks)
-        },
-
-        async loadDoneTasks({commit}){
-           const res = await taskService.getTasks()
-           let tasks = res.data;
-           commit('getDoneTasks', tasks)
-        },
-
-        async submitTask({commit}, newTask){
-            const res = await taskService.submitTask(newTask)
-            let tasks = res.data
-            commit('getTodoTasks', tasks)
-        },
-
-        async deleteTask({commit}, id){
-            const res = await taskService.deleteTask(id)
-            let tasks = res.data
-            commit('getTodoTasks', tasks) 
-        },
-
-        async updateTask({commit}, {id, updatedTask}){
-            const res = await taskService.updateTask(id, updatedTask)
-            let tasks = res.data
-            commit('getTodoTasks', tasks) 
-        }
-    },
     mutations : {
-        getTodoTasks(state, tasks){
+        GET_TODO_TASKS(state, tasks){
             state.tasks = tasks.filter(task => task.done === false) 
         },
-        getDoneTasks(state, tasks){
+        GET_DONE_TASKS(state, tasks){
             state.doneTasks = tasks.filter(task => task.done === true);
+        }
+    },
+    actions : {
+        loadTodoTasks({commit}){
+            taskService.getTasks()
+                .then((response) => {
+                    commit('GET_TODO_TASKS', response.data);
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+        },
+
+        loadDoneTasks({commit}){
+            taskService.getTasks()
+                .then((response) => {
+                    commit('GET_DONE_TASKS', response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        },
+
+        submitTask({commit}, newTask){
+            taskService.submitTask(newTask)
+                .then((response) => {
+                    commit('GET_TODO_TASKS', response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        },
+
+        deleteTask({commit}, id){
+            taskService.deleteTask(id)
+                .then((response) => {
+                    commit('GET_TODO_TASKS', response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        },
+
+        updateTask({commit}, {id, updatedTask}){
+            taskService.updateTask(id, updatedTask)
+                .then((response) => {
+                    commit('GET_TODO_TASKS', response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
         }
     }
 })
