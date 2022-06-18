@@ -1,25 +1,28 @@
 import axios from 'axios'
 
-const baseURL = "http://localhost:3000/"
+const apiClient = axios.create({
+    baseURL: 'http://localhost:3000',
+    withCredentials: false,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    }
+})
     
 export const taskService = {
-    getAll(){
-        return axios.get(baseURL + "tasks")
+    getTasks(){
+        return apiClient.get("/tasks");
     },
     submitTask(newTask){
-        axios.post(baseURL + "tasks", newTask)
-
-        return this.getAll()
-        
+        apiClient.post("/tasks", newTask)
+        return this.getTasks()
     },
     deleteTask(id){
-        axios.delete(baseURL + "tasks/" + id)
-
-        return this.getAll()
+        apiClient.delete("/tasks/" + id)
+        return this.getTasks()
     },
     updateTask(id, updatedTask){
-        axios.patch(baseURL + "tasks/" + id, updatedTask)
-
-        return this.getAll();
+        apiClient.patch("/tasks/" + id, updatedTask)
+        return this.getTasks();
     }
 }

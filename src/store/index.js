@@ -13,13 +13,13 @@ export default new Vuex.Store({
     },
     actions : {
         async loadTodoTasks({commit}){
-           const res = await taskService.getAll()
+           const res = await taskService.getTasks()
            let tasks = res.data;
            commit('getTodoTasks', tasks)
         },
 
         async loadDoneTasks({commit}){
-           const res = await taskService.getAll()
+           const res = await taskService.getTasks()
            let tasks = res.data;
            commit('getDoneTasks', tasks)
         },
