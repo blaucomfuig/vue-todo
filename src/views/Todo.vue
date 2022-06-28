@@ -5,20 +5,13 @@
       <img class="img-home" src="../assets/eternal.png" alt="">
     </div>
     <div class="container-create">
-      <input v-model="task" type="text" placeholder="enter new task" class="form-control input-create">
+      <input v-model="task.name" type="text" placeholder="enter new task" class="form-control input-create">
       <button @click="submitTask" type="submit" class="btn btn-success">create</button>
-      
-     
-
-
 
     </div>
     <form class="list">
       <Task v-for="task in tasks" :key="task.index" :id="task.id" :name="task.name" :done="task.done" :stateEdit="stateEdit" :task="task" :state="state" :updatedTask="updatedTask" @saveDone="saveDone" @enableEdit="enableEdit()" @updateTask="updateTask(task.id)" @deleteTask="deleteTask(task.id)" />
         
-      
-      
-      
     </form>
     
   </div>
@@ -34,51 +27,39 @@ export default {
   },
   data() {
     return{
-      task:"",
+      task: {
+        name: '',
+        level: 'medium',
+        done: false
+      },
       updatedTask: "",
-
       state: false,
       stateEdit : false
     }
   },
 
+  created() {
+    this.$store.dispatch('loadTodoTasks');
+  },
+
   computed: {
     tasks(){
-      return this.$store.state.tasks
-    },
-   
-
+      return this.$store.state.tasks;
+    }
   },
-
-  mounted(){
-    this.catchApi();
-  },
-
 
   methods: {
-    async catchApi(){
-        this.$store.dispatch('loadTodoTasks')
-    },
-      
-    async submitTask(){
-      let newTask = this.task
-      
-        this.$store.dispatch('submitTask', {
-          name: newTask, 
-          level: "medium", 
-          done: false 
-        })
-      
-      this.task = ""
-        
-      
+    loadTodoTasks() {
+      this.$store.dispatch('loadTodoTasks');
     },
 
-    async deleteTask(id){
+    submitTask(){
+      this.$store.dispatch('submitTask', this.task);
+      this.loadTodoTasks();
+    },
 
+    deleteTask(id){
       this.$store.dispatch('deleteTask', id)
-
-
     },
     
     async updateTask(id){
@@ -95,28 +76,16 @@ export default {
         }
       })
     
-
       this.updatedTask = ""
-      
-
-    
-
-     
     },
 
     enableEdit(){
       this.stateEdit = !this.stateEdit  
     },
 
-
-    
     saveDone(){
       this.state= !this.state
-      
-      
     },
-
-  
   }
 }
 </script>
