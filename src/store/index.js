@@ -12,10 +12,12 @@ export default new Vuex.Store({
     },
     mutations : {
         GET_TODO_TASKS(state, tasks){
-            state.tasks = tasks.filter(task => task.done === false) 
+            let todoTasks =  tasks.filter(task => task.done === false);
+            state.tasks = todoTasks;
         },
         GET_DONE_TASKS(state, tasks){
-            state.doneTasks = tasks.filter(task => task.done === true);
+            let doneTasks = tasks.filter(task => task.done === true);
+            state.doneTasks = doneTasks;
         }
     },
     actions : {
@@ -41,22 +43,10 @@ export default new Vuex.Store({
 
         submitTask({commit}, newTask){
             taskService.submitTask(newTask)
-                .then((response) => {
-                    commit('GET_TODO_TASKS', response.data);
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
         },
 
         deleteTask({commit}, id){
             taskService.deleteTask(id)
-                .then((response) => {
-                    commit('GET_TODO_TASKS', response.data);
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
         },
 
         updateTask({commit}, {id, updatedTask}){
